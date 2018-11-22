@@ -3,4 +3,7 @@
 ################################################################################
 
 /.vs
-/src/.vs/BuildScreen/v15/Server/sqlite3
+/src/.vs/*
+*/obj/*
+/src/BuildScreen/obj/
+src/BuildScreen.Plugin/obj/Debug/BuildScreen.Plugin.csproj.FileListAbsolute.txt
