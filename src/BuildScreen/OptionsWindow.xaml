@@ -1,0 +1,87 @@
+﻿<Window x:Class="BuildScreen.OptionsWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:winForms="clr-namespace:System.Windows.Forms;assembly=System.Windows.Forms" Title="Options"
+        Height="585"
+        Width="708"
+        WindowStartupLocation="CenterOwner"
+        Topmost="True"
+        ShowInTaskbar="False"
+        ResizeMode="NoResize"
+        Icon="/BuildScreen;component/App.ico"
+        Loaded="OptionsWindow_Loaded">
+    <Grid>
+        <GroupBox Header="Connection details" HorizontalAlignment="Left" VerticalAlignment="Top" Height="311" Margin="12,12,0,0" Width="280">
+            <Grid Height="275">
+                <Label Content="Domain" Height="28" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="6,46,0,0" />
+                <Label Content="Port number" Height="28" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="6,75,0,0" />
+                <Label Content="Protocol" Height="28" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="6,104,0,0" />
+                <Label Content="Preview" Height="28" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="6,133,0,0" />
+                <Label Content="User name" Height="28" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="6,172,0,0" />
+                <Label Content="Password" Height="28" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="6,201,0,0" />
+                <TextBox Name="TextBoxDomain" Height="23" Width="150" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,48,12,0" TextChanged="TextBoxDomain_TextChanged" />
+                <TextBox Name="TextBoxPort" Height="23" Width="50" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,77,112,0" TextChanged="TextBoxPort_TextChanged" GotFocus="TextBoxPort_GotFocus" />
+                <RadioButton GroupName="RadioButtonProtocol" Name="RadioButtonProtocolHttp" Content="HTTP" Height="16" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="106,109,0,0" Checked="RadioButtonProtocolHttp_Checked" Unchecked="RadioButtonProtocolHttp_Unchecked" />
+                <RadioButton GroupName="RadioButtonProtocol" Name="RadioButtonProtocolHttps" Content="HTTPS" Height="16" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="156,109,0,0" Checked="RadioButtonProtocolHttps_Checked" Unchecked="RadioButtonProtocolHttps_Unchecked" />
+                <TextBox Name="TextBoxPreview" Height="23" Width="150" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,135,12,0" IsEnabled="False" />
+                <TextBox Name="TextBoxUserName" Height="23" Width="150" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,174,12,0" GotFocus="TextBoxUserName_GotFocus" />
+                <PasswordBox Name="PasswordBoxPassword" Height="23" Width="150" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,203,12,0" GotFocus="PasswordBoxPassword_GotFocus" />
+                <Button Name="ButtonTestConnection" Content="Test Connection" HorizontalAlignment="Right" VerticalAlignment="Top" Height="23" Width="150" Margin="0,242,12,0" Click="ButtonTestConnection_Click" />
+                <WindowsFormsHost Margin="0,246,170,0" Height="16" Width="16" Name="WindowsFormHost" VerticalAlignment="Top" HorizontalAlignment="Right">
+                    <winForms:PictureBox x:Name="PictureBoxProgress"> 
+                    </winForms:PictureBox>
+                </WindowsFormsHost>
+                <ComboBox Height="23" Margin="0,9,12,0" Name="ComboBoxCIType" VerticalAlignment="Top" HorizontalAlignment="Right" Width="150">
+                    <ComboBoxItem Content="TeamCity" />
+                    <ComboBoxItem Content="Hudson" />
+                    <ComboBoxItem Content="Bamboo" />
+                </ComboBox>
+                <Label Content="CI Server" Height="28" HorizontalAlignment="Left" Margin="7,8,0,0" VerticalAlignment="Top" />
+            </Grid>
+        </GroupBox>
+        <GroupBox Header="Visual experience" Margin="12,334,0,0" HorizontalAlignment="Left" Width="280" Height="159" VerticalAlignment="Top">
+            <Grid>
+                <ComboBox Name="ComboBoxRefreshInterval" Height="23" Margin="146,14,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Width="50">
+                    <ComboBoxItem Content="15" />
+                    <ComboBoxItem Content="30" />
+                    <ComboBoxItem Content="45" />
+                    <ComboBoxItem Content="60" />
+                </ComboBox>
+                <ComboBox Name="ComboBoxHideInactive" Height="23" Margin="146,101,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Width="50" IsEnabled="False">
+                    <ComboBoxItem Content="1" />
+                    <ComboBoxItem Content="2" />
+                    <ComboBoxItem Content="3" />
+                    <ComboBoxItem Content="4" />
+                </ComboBox>
+                <Label Content="Refresh interval" Height="28" HorizontalAlignment="Left" Margin="5,12,0,0" VerticalAlignment="Top" />
+                <Label Content="seconds" Height="28" HorizontalAlignment="Left" Margin="202,12,0,0" VerticalAlignment="Top" />
+                <CheckBox Name="CheckBoxHideInactive" Content="Hide inactive builds" Height="16" HorizontalAlignment="Left" Margin="11,75,0,0" VerticalAlignment="Top" Checked="CheckBoxHideInactive_Checked" Unchecked="CheckBoxHideInactive_Unchecked" />
+                <Label Name="LabelHideInactiveSince" Content="Inactive since" Height="28" HorizontalAlignment="Left" Margin="6,99,0,0" VerticalAlignment="Top" IsEnabled="False" />
+                <Label Name="LabelHideInactiveWeeks" Content="weeks" Height="28" HorizontalAlignment="Right" Margin="0,95,24,0" VerticalAlignment="Top" IsEnabled="False" />
+                <Label Content="Number of columns" Height="28" HorizontalAlignment="Left" Margin="5,41,0,0" VerticalAlignment="Top" />
+
+                <ComboBox Name="ComboBoxColumnsNumber" Height="23" Margin="146,43,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Width="50">
+                    <ComboBoxItem Content="1" />
+                    <ComboBoxItem Content="2" />
+                    <ComboBoxItem Content="3" />
+                    <ComboBoxItem Content="4" />
+                </ComboBox>
+            </Grid>
+        </GroupBox>
+        <Button Name="ButtonOkay" HorizontalAlignment="Right" VerticalAlignment="Bottom" Height="23" Width="86" Margin="0,0,105,21" Content="OK" Click="ButtonOkay_Click" />
+        <Button Name="ButtonCancel" HorizontalAlignment="Right" VerticalAlignment="Bottom" Height="23" Width="86" Margin="0,0,13,21" Content="Cancel" Click="ButtonCancel_Click" />
+        <GroupBox Name="GroupBoxBuilds" Header="Builds to display" Height="481" Margin="298,12,12,0" VerticalAlignment="Top">
+            <Grid>
+                <ListBox Name="ListBoxBuilds" Margin="12,9,12,12" BorderBrush="#FFADB2B5" SelectionMode="Single" PreviewMouseRightButtonDown="ListBoxBuilds_PreviewMouseRightButtonDown">
+                    <ListBox.ContextMenu>
+                        <ContextMenu >
+                            <MenuItem x:Name="check" Header="Check all" Click="CheckAll" />
+                            <MenuItem x:Name="uncheck" Header="Uncheck all" Click="UnCheckAll" />
+                        </ContextMenu>
+                    </ListBox.ContextMenu>
+                </ListBox>
+                <TextBlock Name="TextBlockConnectionStatus" Text="Not connected" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="#FF6D6D6D" />
+                <TextBox Name="TextBoxErrorMessage" Margin="24,0,24,24" TextWrapping="WrapWithOverflow" Height="80" VerticalAlignment="Bottom" IsReadOnly="True" BorderBrush="{x:Null}" Background="{x:Null}" />
+            </Grid>
+        </GroupBox>
+    </Grid>
+</Window>

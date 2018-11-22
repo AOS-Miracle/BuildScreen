@@ -1,0 +1,54 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="BuildScreen.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="Domain" Type="System.String" Scope="User">
+      <Value Profile="(Default)">localhost</Value>
+    </Setting>
+    <Setting Name="Port" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">8080</Value>
+    </Setting>
+    <Setting Name="UserName" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="Password" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="RefreshInterval" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">15</Value>
+    </Setting>
+    <Setting Name="UseSsl" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="IgnoreInvalidCertificate" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="Testis" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="Builds" Type="BuildScreen.ContinousIntegration.Entities.BuildList" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="HideInactive" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="HideInactiveWeeks" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">4</Value>
+    </Setting>
+    <Setting Name="ClientType" Type="BuildScreen.ContinousIntegration.ClientType" Scope="User">
+      <Value Profile="(Default)">TeamCity</Value>
+    </Setting>
+    <Setting Name="NumberOfColumns" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">1</Value>
+    </Setting>
+    <Setting Name="BaseUrlTeamCity" Type="System.String" Scope="User">
+      <Value Profile="(Default)">{0}://{1}:{2}/httpAuth/app/rest/</Value>
+    </Setting>
+    <Setting Name="BaseUrlHudson" Type="System.String" Scope="User">
+      <Value Profile="(Default)">{0}://{1}:{2}/</Value>
+    </Setting>
+    <Setting Name="BaseUrlBamboo" Type="System.String" Scope="User">
+      <Value Profile="(Default)">{0}://{1}:{2}/rest/api/</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>
