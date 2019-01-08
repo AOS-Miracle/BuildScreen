@@ -142,54 +142,78 @@ namespace BuildScreen
         private void LoadGridWithBuilds(Build build)
         {
             StackPanel stackPanel = new StackPanel();
- 
-            stackPanel.Children.Insert(0, new TextBlock
-                                              {
-                                                  Text = string.IsNullOrEmpty(build.ProjectName) ? build.TypeName : string.Format("{0}, {1}", build.ProjectName, build.TypeName),
-                                                  FontSize = 24,
-                                                  Foreground = new SolidColorBrush(Colors.White),
-                                                  Padding = new Thickness(10, 0, 10, 0)
-                                              });
-
-            stackPanel.Children.Insert(1, new TextBlock
-                                              {
-                                                  Text = string.IsNullOrEmpty(build.ProjectName) ? string.Format("Build {0}", build.Number) : string.Format("Build {0}, {1}", build.Number, build.StatusText),
-                                                  FontSize = 12,
-                                                  Foreground = new SolidColorBrush(Colors.White),
-                                                  Padding = new Thickness(10, 0, 10, 6)
-                                              });
 
             Viewbox viewbox = new Viewbox();
             viewbox.HorizontalAlignment = HorizontalAlignment.Left;
             viewbox.Child = stackPanel;
 
             Grid grid = new Grid();
-            grid.Background = build.Status == Status.Success ? Graphics.BrushSuccess : Graphics.BrushFailure;
             grid.Tag = build;
 
-            if(build.Running)
-                DoAnimationRectangle(grid);
+            stackPanel.Children.Insert(0, new TextBlock
+            {
+                Text = string.IsNullOrEmpty(build.ProjectName) ? build.TypeName : string.Format("{0}, {1}", build.ProjectName, build.TypeName),
+                FontSize = 24,
+                Foreground = new SolidColorBrush(Colors.White),
+                Padding = new Thickness(10, 0, 10, 0)
+            });
+
+            if (build.NextBuildRunning)
+            {
+                grid.Background = build.NextBuild.Status == Status.Success ? Graphics.BrushNeutral : Graphics.BrushFailure;
+
+                stackPanel.Children.Insert(1, new TextBlock
+                {
+                    Text = string.Format("Build {0} running... ({1}% Complete - {2})", build.NextBuild.Number, build.NextBuild.percentageComplete, build.NextBuild.Status == Status.Success ? "Succeeding" : "Failing"),
+                    FontSize = 12,
+                    Foreground = new SolidColorBrush(Colors.White),
+                    Padding = new Thickness(10, 0, 10, 6)
+                });
+
+                DoAnimationRectangle(grid, build);
+            }
+            else
+            {
+                grid.Background = build.Status == Status.Success ? Graphics.BrushSuccess : Graphics.BrushFailure;
+
+                stackPanel.Children.Insert(1, new TextBlock
+                {
+                    Text = string.IsNullOrEmpty(build.ProjectName) ? string.Format("Build {0}", build.Number) : string.Format("Build {0}, {1}", build.Number, build.StatusText),
+                    FontSize = 12,
+                    Foreground = new SolidColorBrush(Colors.White),
+                    Padding = new Thickness(10, 0, 10, 6)
+                });
+            }
 
             grid.Children.Insert(0, viewbox);
 
             UniformGridBuilds.Children.Insert(0, grid);
         }
 
-        private static void DoAnimationRectangle(Grid g)
+        private static void DoAnimationRectangle(Grid g, Build build)
         {
-            // Create a DoubleAnimation to animate the width of the button.
-            DoubleAnimation myDoubleAnimation = new DoubleAnimation();
-            myDoubleAnimation.From = 1;
-            myDoubleAnimation.To = 0;
-            myDoubleAnimation.Duration = new Duration(TimeSpan.FromMilliseconds(2000));
-            myDoubleAnimation.AutoReverse = true;
-            myDoubleAnimation.RepeatBehavior = RepeatBehavior.Forever;
+            DoubleAnimation opacityAnimation = new DoubleAnimation();
+            opacityAnimation.From = 1;
+            opacityAnimation.To = 0;
+            opacityAnimation.Duration = new Duration(TimeSpan.FromSeconds(2));
+            opacityAnimation.AutoReverse = true;
+            opacityAnimation.RepeatBehavior = RepeatBehavior.Forever;
 
-            Storyboard.SetTarget(myDoubleAnimation, g);
-            Storyboard.SetTargetProperty(myDoubleAnimation, new PropertyPath(Grid.OpacityProperty));
+            //DoubleAnimation widthAnimation = new DoubleAnimation();
+            //widthAnimation.From = 1;
+            //widthAnimation.To = 100;
+            //widthAnimation.Duration = new Duration(TimeSpan.FromSeconds(5));
+
+
+            Storyboard.SetTarget(opacityAnimation, g);
+            //Storyboard.SetTarget(widthAnimation, g);
+
+            Storyboard.SetTargetProperty(opacityAnimation, new PropertyPath(Grid.OpacityProperty));
+            //Storyboard.SetTargetProperty(widthAnimation, new PropertyPath(Grid.WidthProperty));
 
             Storyboard myAnimatedGridStoryboard = new Storyboard();
-            myAnimatedGridStoryboard.Children.Add(myDoubleAnimation);
+            myAnimatedGridStoryboard.Children.Add(opacityAnimation);
+            //myAnimatedGridStoryboard.Children.Add(widthAnimation);
 
             myAnimatedGridStoryboard.Begin();
         }

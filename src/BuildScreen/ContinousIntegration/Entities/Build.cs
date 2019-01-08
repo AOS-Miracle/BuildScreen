@@ -20,8 +20,8 @@ namespace BuildScreen.ContinousIntegration.Entities
         public string UniqueIdentifier { get; set; }
         public string TypeName { get; set; }
         public string ProjectName { get; set; }
-        public bool Running { get; set; }
-        public int RunningPercentage { get; set; }
+        public bool NextBuildRunning { get; set; }
+        public TeamCityRunningBuild NextBuild { get; set; }
     }
 
     /// <remarks>
@@ -31,5 +31,14 @@ namespace BuildScreen.ContinousIntegration.Entities
     [Serializable]
     public class BuildList : List<Build>
     {
+    }
+
+    public class TeamCityRunningBuild
+    {
+        public string BuildTypeID { get; set; }
+        public string Number { get; set; }
+        public Status Status { get; set; }
+        public int percentageComplete { get; set; }
+
     }
 }

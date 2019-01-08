@@ -93,7 +93,25 @@ namespace BuildScreen.ContinousIntegration.Client
 
             XDocument xDocument = LoadXmlDocument(runUri);
 
-            build.Running = xDocument.Elements("builds").Elements("build").Where(x => x.Attribute("buildTypeId").Value.Equals(build.UniqueIdentifier)).Any();
+            bool running = xDocument.Elements("builds").Elements("build").Where(x => x.Attribute("buildTypeId").Value.Equals(build.UniqueIdentifier)).Any();
+
+            if (running)
+            {
+                build.NextBuildRunning = true;
+
+                XElement xElementRunningBuild = xDocument.Elements("builds").Elements("build").Where(x => x.Attribute("buildTypeId").Value.Equals(build.UniqueIdentifier)).First();
+
+                build.NextBuild = new TeamCityRunningBuild
+                {
+                    
+                };
+
+                build.NextBuild.BuildTypeID = xElementRunningBuild.Attribute("buildTypeId").Value;
+                build.NextBuild.Number = xElementRunningBuild.Attribute("number").Value;
+                build.NextBuild.Status = xElementRunningBuild.Attribute("status").Value.Equals("success", StringComparison.OrdinalIgnoreCase) ? Status.Success : Status.Fail;
+                build.NextBuild.percentageComplete = int.Parse(xElementRunningBuild.Attribute("percentageComplete").Value);
+
+            }
 
             return build;
         }
