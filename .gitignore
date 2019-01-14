@@ -6,4 +6,7 @@
 /src/.vs/*
 */obj/*
 /src/BuildScreen/obj/
+/src/BuildScreen/bin/
+/src/BuildScreen.Plugin/bin/
+/src/BuildScreen.Plugin/obj/
 src/BuildScreen.Plugin/obj/Debug/BuildScreen.Plugin.csproj.FileListAbsolute.txt

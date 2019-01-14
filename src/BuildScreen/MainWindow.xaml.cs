@@ -133,9 +133,10 @@ namespace BuildScreen
                     }
                 }
             }
-            catch (ClientConnectionException)
+            catch (ClientConnectionException ex)
             {
-                // TODO: Display error message
+                // Display error message
+                MessageBox.Show("Der er sket en fejl: " + ex.Message);
             }
         }
 
@@ -178,7 +179,7 @@ namespace BuildScreen
 
                 stackPanel.Children.Insert(1, new TextBlock
                 {
-                    Text = string.IsNullOrEmpty(build.ProjectName) ? string.Format("Build {0}", build.Number) : string.Format("Build {0}, {1}", build.Number, build.StatusText),
+                    Text = string.IsNullOrEmpty(build.ProjectName) ? string.Format("Build {0}", build.Number) : string.Format("Build {0} ({2}), {1}", build.Number, build.StatusText, build.LastChangeBy),
                     FontSize = 12,
                     Foreground = new SolidColorBrush(Colors.White),
                     Padding = new Thickness(10, 0, 10, 6)

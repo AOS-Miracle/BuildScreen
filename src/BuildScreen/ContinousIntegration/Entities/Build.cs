@@ -22,6 +22,7 @@ namespace BuildScreen.ContinousIntegration.Entities
         public string ProjectName { get; set; }
         public bool NextBuildRunning { get; set; }
         public TeamCityRunningBuild NextBuild { get; set; }
+        public string LastChangeBy { get; set; }
     }
 
     /// <remarks>
