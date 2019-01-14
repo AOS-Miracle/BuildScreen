@@ -69,17 +69,20 @@ namespace BuildScreen.ContinousIntegration.Client
             XElement xElementBuildType = xElementBuild.Element("buildType");
 
             ret = new Build
-                    {
-                        Number = xElementBuild.Attribute("number").Value,
-                        Status = xElementBuild.Attribute("status").Value.Equals("success", StringComparison.OrdinalIgnoreCase) ? Status.Success : Status.Fail,
-                        StatusText = xElementBuild.Element("statusText").Value,
-                        UniqueIdentifier = xElementBuildType.Attribute("id").Value,
-                        TypeName = xElementBuildType.Attribute("name").Value,
-                        ProjectName = xElementBuildType.Attribute("projectName").Value,
+            {
+                Number = xElementBuild.Attribute("number").Value,
+                Status = xElementBuild.Attribute("status").Value.Equals("success", StringComparison.OrdinalIgnoreCase) ? Status.Success : Status.Fail,
+                StatusText = xElementBuild.Element("statusText").Value,
+                UniqueIdentifier = xElementBuildType.Attribute("id").Value,
+                TypeName = xElementBuildType.Attribute("name").Value,
+                ProjectName = xElementBuildType.Attribute("projectName").Value,
 
-                        StartDate = DateTime.ParseExact(xElementBuild.Element("startDate").Value, "yyyyMMddTHHmmsszzzz", CultureInfo.InvariantCulture),
-                        FinishDate = DateTime.ParseExact(xElementBuild.Element("finishDate").Value, "yyyyMMddTHHmmsszzzz", CultureInfo.InvariantCulture),
-                    };
+                StartDate = DateTime.ParseExact(xElementBuild.Element("startDate").Value, "yyyyMMddTHHmmsszzzz", CultureInfo.InvariantCulture),
+                FinishDate = DateTime.ParseExact(xElementBuild.Element("finishDate").Value, "yyyyMMddTHHmmsszzzz", CultureInfo.InvariantCulture),
+
+                LastChangeBy = (xElementBuild.Elements("lastChanges").Elements("change").FirstOrDefault() != null) ?
+                    xElementBuild.Elements("lastChanges").Elements("change").FirstOrDefault().Attribute("username").Value : ""
+            };
 
             ret = GetRunStatus(ret);
 
