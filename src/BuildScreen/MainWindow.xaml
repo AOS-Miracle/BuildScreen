@@ -11,7 +11,7 @@
         Loaded="MainWindow_Loaded">
     <Grid Name="MainGrid" Background="#FFFFFFFF">
         <UniformGrid Name="UniformGridBuilds" Columns="1" Background="#FF4B4B4B" />
-        <TextBlock Name="ShortcutsInfo" Foreground="White" Margin="5" HorizontalAlignment="Right" VerticalAlignment="Bottom">
+        <TextBlock Name="ShortcutsInfo" Foreground="White" Margin="5" HorizontalAlignment="Right" VerticalAlignment="Bottom" PreviewMouseDown="ShortcutsInfo_PreviewMouseDown">
             <TextBlock.Effect>
                 <DropShadowEffect ShadowDepth="2" Color="Black" Opacity="0.8" BlurRadius="4" />
             </TextBlock.Effect>

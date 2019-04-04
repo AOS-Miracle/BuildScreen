@@ -248,5 +248,14 @@ namespace BuildScreen
                     BaseUrl = baseUrl
                 };
         }
+
+        private void ShortcutsInfo_PreviewMouseDown(object sender, MouseButtonEventArgs e)
+        {
+            WindowStyle = WindowStyle.None;
+            WindowState = WindowState.Maximized;
+            Topmost = true;
+
+            ShortcutsInfo.Text = InternalResources.ShortcutInfoExitFullScreen;
+        }
     }
 }
