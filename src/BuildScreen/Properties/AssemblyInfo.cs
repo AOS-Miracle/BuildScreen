@@ -22,3 +22,5 @@ using System.Windows;
     ResourceDictionaryLocation.None,
     ResourceDictionaryLocation.SourceAssembly
 )]
+
+[assembly: log4net.Config.XmlConfigurator(ConfigFile = "log4net.config")]

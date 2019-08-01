@@ -5,9 +5,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media;
 using System.Windows.Media.Animation;
-using System.Windows.Shapes;
 using System.Windows.Threading;
 using BuildScreen.ContinousIntegration;
 using BuildScreen.ContinousIntegration.Entities;
@@ -18,6 +16,9 @@ using BuildScreen.Core.Utilities;
 using BuildScreen.Plugin;
 using BuildScreen.Properties;
 using BuildScreen.Resources;
+using BuildScreen.FunAndGames;
+using BuildScreen.Helpers;
+using System.Windows.Controls.Primitives;
 
 namespace BuildScreen
 {
@@ -27,9 +28,13 @@ namespace BuildScreen
         private PluginHandler _pluginHandler;
         private IClientFactory _clientFactory;
 
+        private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+
         public MainWindow()
         {
             InitializeComponent();
+
+            FAG.ActivateFunAndGames();
         }
 
         private void MainWindow_Loaded(object sender, RoutedEventArgs e)
@@ -135,8 +140,11 @@ namespace BuildScreen
             }
             catch (ClientConnectionException ex)
             {
-                // Display error message
-                MessageBox.Show("Der er sket en fejl: " + ex.Message);
+                // Display error message with auto close
+                Window owner = AutoCloseWindow.CreateAutoCloseWindow(new TimeSpan(0, 5, 0));
+                MessageBox.Show(owner, "Der er sket en fejl: " + ex.Message, "Fejl!", MessageBoxButton.OK, MessageBoxImage.Error);
+
+                log.Error(ex.InnerException);
             }
         }
 
@@ -151,6 +159,9 @@ namespace BuildScreen
             Grid grid = new Grid();
             grid.Tag = build;
 
+            grid.Children.Insert(0, viewbox);
+            UniformGridBuilds.Children.Insert(0, grid);
+
             stackPanel.Children.Insert(0, new TextBlock
             {
                 Text = string.IsNullOrEmpty(build.ProjectName) ? build.TypeName : string.Format("{0}, {1}", build.ProjectName, build.TypeName),
@@ -163,32 +174,40 @@ namespace BuildScreen
             {
                 grid.Background = build.NextBuild.Status == Status.Success ? Graphics.BrushNeutral : Graphics.BrushFailure;
 
-                stackPanel.Children.Insert(1, new TextBlock
+                try
                 {
-                    Text = string.Format("Build {0} running... ({1}% Complete - {2})", build.NextBuild.Number, build.NextBuild.percentageComplete, build.NextBuild.Status == Status.Success ? "Succeeding" : "Failing"),
-                    FontSize = 12,
-                    Foreground = new SolidColorBrush(Colors.White),
-                    Padding = new Thickness(10, 0, 10, 6)
-                });
+                    stackPanel.Children.Insert(1, new TextBlock
+                    {
+                        Text = string.Format("Build {0} running... ({1}% Complete - {2})", build.NextBuild.Number, build.NextBuild.percentageComplete, build.NextBuild.Status == Status.Success ? "Succeeding" : "Failing"),
+                        FontSize = 12,
+                        Foreground = new SolidColorBrush(Colors.White),
+                        Padding = new Thickness(10, 0, 10, 6)
+                    });
 
-                DoAnimationRectangle(grid, build);
+                    DoAnimationRectangle(grid, build);
+                }
+                catch (Exception ie)
+                { }
+                
             }
             else
             {
                 grid.Background = build.Status == Status.Success ? Graphics.BrushSuccess : Graphics.BrushFailure;
 
-                stackPanel.Children.Insert(1, new TextBlock
-                {
-                    Text = string.IsNullOrEmpty(build.ProjectName) ? string.Format("Build {0}", build.Number) : string.Format("Build {0} ({2}), {1}", build.Number, build.StatusText, build.LastChangeBy),
-                    FontSize = 12,
-                    Foreground = new SolidColorBrush(Colors.White),
-                    Padding = new Thickness(10, 0, 10, 6)
-                });
+                try
+                { 
+                    stackPanel.Children.Insert(1, new TextBlock
+                    {
+                        Text = string.IsNullOrEmpty(build.ProjectName) ? string.Format("Build {0}", build.Number) : string.Format("Build {0} ({2}), {1}", build.Number, build.StatusText, build.LastChangeBy),
+                        FontSize = 12,
+                        Foreground = new SolidColorBrush(Colors.White),
+                        Padding = new Thickness(10, 0, 10, 6)
+                    });
+                }
+                catch (Exception ie)
+                { }
             }
 
-            grid.Children.Insert(0, viewbox);
-
-            UniformGridBuilds.Children.Insert(0, grid);
         }
 
         private static void DoAnimationRectangle(Grid g, Build build)
@@ -201,10 +220,11 @@ namespace BuildScreen
             opacityAnimation.RepeatBehavior = RepeatBehavior.Forever;
 
             //DoubleAnimation widthAnimation = new DoubleAnimation();
-            //widthAnimation.From = 1;
-            //widthAnimation.To = 100;
+            //widthAnimation.From = 0
+            //widthAnimation.To = ((UniformGrid)g.Parent).ActualWidth;
             //widthAnimation.Duration = new Duration(TimeSpan.FromSeconds(5));
-
+            //widthAnimation.AutoReverse = true;
+            //widthAnimation.RepeatBehavior = RepeatBehavior.Forever;
 
             Storyboard.SetTarget(opacityAnimation, g);
             //Storyboard.SetTarget(widthAnimation, g);
@@ -257,5 +277,7 @@ namespace BuildScreen
 
             ShortcutsInfo.Text = InternalResources.ShortcutInfoExitFullScreen;
         }
+
+        
     }
 }
