@@ -39,16 +39,25 @@ namespace BuildScreen
 
         private void MainWindow_Loaded(object sender, RoutedEventArgs e)
         {
-            ShortcutsInfo.Text = InternalResources.ShortcutInfoEnterFullScreen;
+            try
+            {
+                ShortcutsInfo.Text = InternalResources.ShortcutInfoEnterFullScreen;
 
-            _clientFactory = new ClientFactory();
-            _pluginHandler = new PluginHandler();
+                _clientFactory = new ClientFactory();
+                _pluginHandler = new PluginHandler();
 
-            ConnectAndRender();
+                ConnectAndRender();
 
-            _dispatcherTimer.Tick += DispatcherTimer_Tick;
-            _dispatcherTimer.Interval = new TimeSpan(0, 0, Settings.Default.RefreshInterval);
-            _dispatcherTimer.Start();
+                _dispatcherTimer.Tick += DispatcherTimer_Tick;
+                _dispatcherTimer.Interval = new TimeSpan(0, 0, Settings.Default.RefreshInterval);
+                _dispatcherTimer.Start();
+            }
+            catch (Exception ie)
+            {
+                log.Error(ie.InnerException);
+                throw;
+            }
+
         }
 
         private void MainWindow_KeyDown(object sender, KeyEventArgs e)
@@ -138,7 +147,7 @@ namespace BuildScreen
                     }
                 }
             }
-            catch (ClientConnectionException ex)
+            catch (Exception ex)
             {
                 // Display error message with auto close
                 Window owner = AutoCloseWindow.CreateAutoCloseWindow(new TimeSpan(0, 5, 0));
