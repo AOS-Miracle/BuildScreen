@@ -108,7 +108,7 @@ namespace BuildScreen.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Press ESC to Exit Full Screen, Ctrl+O for Options.
+        ///   Looks up a localized string similar to Press ESC or Click to Exit Full Screen, Ctrl+O for Options.
         /// </summary>
         internal static string ShortcutInfoExitFullScreen {
             get {

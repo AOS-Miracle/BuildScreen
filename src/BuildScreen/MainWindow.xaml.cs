@@ -124,7 +124,7 @@ namespace BuildScreen
                 {
                     if (client.IsConnected)
                     {
-                        foreach (Build storedBuild in Settings.Default.Builds)
+                        foreach (Build storedBuild in Settings.Default.Builds.OrderBy(i => i.DisplayOrder))
                         {
                             try
                             {
@@ -203,6 +203,11 @@ namespace BuildScreen
             {
                 grid.Background = build.Status == Status.Success ? Graphics.BrushSuccess : Graphics.BrushFailure;
 
+                if(build.LastChangeBy.Equals(null) || build.LastChangeBy.Equals(""))
+                {
+                    build.LastChangeBy = "N/A";
+                }
+
                 try
                 { 
                     stackPanel.Children.Insert(1, new TextBlock
@@ -280,11 +285,24 @@ namespace BuildScreen
 
         private void ShortcutsInfo_PreviewMouseDown(object sender, MouseButtonEventArgs e)
         {
-            WindowStyle = WindowStyle.None;
-            WindowState = WindowState.Maximized;
-            Topmost = true;
+            if(WindowStyle == WindowStyle.SingleBorderWindow)
+            {
+                WindowStyle = WindowStyle.None;
+                WindowState = WindowState.Maximized;
+                Topmost = true;
 
-            ShortcutsInfo.Text = InternalResources.ShortcutInfoExitFullScreen;
+                ShortcutsInfo.Text = InternalResources.ShortcutInfoExitFullScreen;
+            }
+            else
+            {
+                WindowStyle = WindowStyle.SingleBorderWindow;
+                WindowState = WindowState.Normal;
+                Topmost = false;
+
+                ShortcutsInfo.Text = InternalResources.ShortcutInfoEnterFullScreen;
+            }
+
+            
         }
 
         

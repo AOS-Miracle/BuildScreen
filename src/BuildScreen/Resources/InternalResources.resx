@@ -134,7 +134,7 @@
     <value>Press F11 or Click for Full Screen, Ctrl+O for Options</value>
   </data>
   <data name="ShortcutInfoExitFullScreen" xml:space="preserve">
-    <value>Press ESC to Exit Full Screen, Ctrl+O for Options</value>
+    <value>Press ESC or Click to Exit Full Screen, Ctrl+O for Options</value>
   </data>
   <data name="ValidateInvalidDomain" xml:space="preserve">
     <value>Invalid domain</value>

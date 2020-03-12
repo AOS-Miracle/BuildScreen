@@ -73,6 +73,21 @@ namespace BuildScreen
             Close();
         }
 
+        private void OrderWindowButton_Click(object sender, RoutedEventArgs e)
+        {
+            BuildList storedBuilds = new BuildList();
+            foreach (object item in ListBoxBuilds.Items.Cast<object>().Where(item => ((CheckBox)item).IsChecked == true))
+            {
+                storedBuilds.Add(((CheckBox)item).Tag as Build);
+            }
+
+            SaveSettings(storedBuilds);
+
+            OrderWindow orderDialog = new OrderWindow(storedBuilds);
+            orderDialog.ShowDialog();
+
+        }
+
         private void TextBoxDomain_TextChanged(object sender, TextChangedEventArgs e)
         {
             if (!Validate.IsDomain(TextBoxDomain.Text) && !Validate.IsIpAddress(TextBoxDomain.Text))
@@ -122,6 +137,7 @@ namespace BuildScreen
                 TextBoxErrorMessage.Visibility = Visibility.Hidden;
                 TextBlockConnectionStatus.Visibility = Visibility.Visible;
                 GroupBoxBuilds.IsEnabled = false;
+                OrderWindowButton.IsEnabled = false;
 
                 RunWorker(clientConfiguration);
             }
@@ -148,6 +164,7 @@ namespace BuildScreen
             {
                 TextBlockConnectionStatus.Visibility = Visibility.Hidden;
                 GroupBoxBuilds.IsEnabled = true;
+                OrderWindowButton.IsEnabled = true;
 
                 FillListBoxBuilds(e.Result as ReadOnlyCollection<Build>);
             }
@@ -180,7 +197,10 @@ namespace BuildScreen
                     foreach (Build storedBuild in Settings.Default.Builds)
                     {
                         if (storedBuild.UniqueIdentifier == build.UniqueIdentifier)
+                        {
                             checkBox.IsChecked = true;
+                            build.DisplayOrder = storedBuild.DisplayOrder;
+                        }         
                     }
                 }
 

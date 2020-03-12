@@ -71,7 +71,11 @@
         <Button Name="ButtonCancel" HorizontalAlignment="Right" VerticalAlignment="Bottom" Height="23" Width="86" Margin="0,0,13,21" Content="Cancel" Click="ButtonCancel_Click" />
         <GroupBox Name="GroupBoxBuilds" Header="Builds to display" Height="481" Margin="298,12,12,0" VerticalAlignment="Top">
             <Grid>
-                <ListBox Name="ListBoxBuilds" Margin="12,9,12,12" BorderBrush="#FFADB2B5" SelectionMode="Single" PreviewMouseRightButtonDown="ListBoxBuilds_PreviewMouseRightButtonDown">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="10*"/>
+                    <RowDefinition Height="1*" />
+                </Grid.RowDefinitions>
+                <ListBox Name="ListBoxBuilds" Margin="12,9,12,0" Grid.Row="0" BorderBrush="#FFADB2B5" SelectionMode="Single" PreviewMouseRightButtonDown="ListBoxBuilds_PreviewMouseRightButtonDown">
                     <ListBox.ContextMenu>
                         <ContextMenu >
                             <MenuItem x:Name="check" Header="Check all" Click="CheckAll" />
@@ -79,6 +83,7 @@
                         </ContextMenu>
                     </ListBox.ContextMenu>
                 </ListBox>
+                <Button Name="OrderWindowButton" Content="Set Displayorder" Grid.Row="1" HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="120" Height="23" Click="OrderWindowButton_Click" Margin="0,0,12,5" />
                 <TextBlock Name="TextBlockConnectionStatus" Text="Not connected" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="#FF6D6D6D" />
                 <TextBox Name="TextBoxErrorMessage" Margin="24,0,24,24" TextWrapping="WrapWithOverflow" Height="80" VerticalAlignment="Bottom" IsReadOnly="True" BorderBrush="{x:Null}" Background="{x:Null}" />
             </Grid>

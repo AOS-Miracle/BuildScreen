@@ -23,6 +23,7 @@ namespace BuildScreen.ContinousIntegration.Entities
         public bool NextBuildRunning { get; set; }
         public TeamCityRunningBuild NextBuild { get; set; }
         public string LastChangeBy { get; set; }
+        public int DisplayOrder { get; set; }
     }
 
     /// <remarks>
